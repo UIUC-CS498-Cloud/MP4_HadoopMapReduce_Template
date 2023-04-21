@@ -17,8 +17,8 @@ RUN apt-get update && \
     python3 \
     && apt-get clean
 
-RUN curl -s "https://archive.apache.org/dist/hadoop/core/hadoop-2.9.2/hadoop-2.9.2.tar.gz" | tar -xz -C /usr/local/ \
-    && ln -s /usr/local/hadoop-2.9.2 /usr/local/hadoop \
+RUN curl -s "https://archive.apache.org/dist/hadoop/core/hadoop-3.3.5/hadoop-3.3.5.tar.gz" | tar -xz -C /usr/local/ \
+    && ln -s /usr/local/hadoop-3.3.5 /usr/local/hadoop \
     && chmod a+rwx -R /usr/local/hadoop/
 
 ENV HADOOP_PREFIX /usr/local/hadoop
@@ -50,13 +50,6 @@ RUN if [ "$(uname -m)" = "x86_64" ]; then export JAVA_HOME=/usr/lib/jvm/java-1.8
 #RUN chmod 777 /usr/local/bin/autosu
 #RUN adduser hadoopuser --disabled-password --gecos ""
 #RUN echo 'hadoopuser:hadooppass' | chpasswd
-
-# Download and setup Apache Spark
-RUN curl -s "https://archive.apache.org/dist/spark/spark-3.3.2/spark-3.3.2-bin-hadoop2.tgz" | tar -xz  -C /usr/local/ \
-    && ln -s /usr/local/spark-3.3.2-bin-hadoop2 /usr/local/spark \
-    && chmod a+rwx -R /usr/local/spark/
-ENV PATH="/usr/local/spark/bin:${PATH}"
-ENV SPARK_HOME /usr/local/spark
 
 # Make vim nice
 RUN echo "set background=dark" >> ~/.vimrc
