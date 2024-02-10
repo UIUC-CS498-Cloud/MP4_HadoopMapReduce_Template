@@ -13,7 +13,7 @@ RUN apt-get update && \
     git \
     zip \
     unzip \
-    openjdk-17-jdk \
+    openjdk-21-jdk \
     python3 \
     && apt-get clean
 
@@ -35,7 +35,7 @@ ENV PATH="/usr/local/hadoop/bin:${PATH}"
 # ARM64/aarch64: /usr/lib/jvm/java-8-openjdk-arm64
 # X84_64: /usr/lib/jvm/java-1.8.0-openjdk-amd64
 
-RUN if [ "$(uname -m)" = "x86_64" ]; then export JAVA_HOME=/usr/lib/jvm/java-1.17.0-openjdk-amd64; else export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64; fi \
+RUN if [ "$(uname -m)" = "x86_64" ]; then export JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64; else export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-arm64; fi \
     && export HADOOP_CLASSPATH=$JAVA_HOME/lib/tools.jar \
     && sed -i "/^export JAVA_HOME/ s:.*:export HADOOP_PREFIX=/usr/local/hadoop HADOOP_HOME=/usr/local/hadoop\n:" $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh \
     && sed -i "/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:" $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh \
