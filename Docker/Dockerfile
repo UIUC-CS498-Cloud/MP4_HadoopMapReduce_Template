@@ -17,8 +17,8 @@ RUN apt-get update && \
     python3 \
     && apt-get clean
 
-RUN curl -s "https://archive.apache.org/dist/hadoop/core/hadoop-3.3.5/hadoop-3.3.5.tar.gz" | tar -xz -C /usr/local/ \
-    && ln -s /usr/local/hadoop-3.3.5 /usr/local/hadoop \
+RUN curl -s "https://archive.apache.org/dist/hadoop/core/hadoop-3.3.6/hadoop-3.3.6.tar.gz" | tar -xz -C /usr/local/ \
+    && ln -s /usr/local/hadoop-3.3.6 /usr/local/hadoop \
     && chmod a+rwx -R /usr/local/hadoop/
 
 ENV HADOOP_PREFIX /usr/local/hadoop
