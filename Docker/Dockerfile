@@ -20,7 +20,9 @@ RUN apt-get update && \
 RUN curl -s "https://archive.apache.org/dist/hadoop/core/hadoop-3.3.6/hadoop-3.3.6.tar.gz" | tar -xz -C /usr/local/ \
     && ln -s /usr/local/hadoop-3.3.6 /usr/local/hadoop \
     && chmod a+rwx -R /usr/local/hadoop/
-
+RUN wget https://repo1.maven.org/maven2/org/json/json/20240205/json-20240205.jar
+RUN mkdir json-lib
+RUN mv json-*.jar json-lib 
 ENV HADOOP_PREFIX /usr/local/hadoop
 ENV HADOOP_COMMON_HOME /usr/local/hadoop
 ENV HADOOP_HDFS_HOME /usr/local/hadoop
@@ -28,7 +30,7 @@ ENV HADOOP_MAPRED_HOME /usr/local/hadoop
 ENV HADOOP_YARN_HOME /usr/local/hadoop
 ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
-# ENV HADOOP_CLASSPATH $JAVA_HOME/lib/tools.jar
+ENV HADOOP_CLASSPATH $JAVA_HOME/lib/tools.jar:/json-lib/*.jar
 ENV PATH="/usr/local/hadoop/bin:${PATH}"
 
 # Test the arch and set JAVA_HOME accordingly:
@@ -41,6 +43,7 @@ RUN if [ "$(uname -m)" = "x86_64" ]; then export JAVA_HOME=/usr/lib/jvm/java-1.2
     && sed -i "/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:" $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh \
     && echo "export JAVA_HOME=$JAVA_HOME" >> $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh \
     && echo "export JAVA_HOME=$JAVA_HOME" >> /root/.bashrc
+
 
 # RUN sed -i "/^export JAVA_HOME/ s:.*:export HADOOP_PREFIX=/usr/local/hadoop HADOOP_HOME=/usr/local/hadoop\n:" $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
 # RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
